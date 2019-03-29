@@ -1,9 +1,9 @@
 import { ApolloServer } from 'apollo-server'
-import { Agent } from 'https';
-import { getPackedSettings } from 'http2';
 
 const typeDefs = `
     type Query {
+        greeting(name: String): String!
+        add(a: Float!, b: Float!): Float!
         me: User!
         post: Post!
     }
@@ -25,6 +25,16 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
+        greeting() {
+            return "Hello"
+        },
+        add(parent, args) {
+            // console.log(parent);
+            // console.log(ctx);
+            // console.log(info);
+            // console.log(args);
+            return args.a + args.b
+        },
         me() {
             return {
                 id: "123abc",
