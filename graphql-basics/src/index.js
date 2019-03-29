@@ -4,51 +4,44 @@ import { getPackedSettings } from 'http2';
 
 const typeDefs = `
     type Query {
-       id: ID!
-       name: String!
-       age: Int!
-       employedN: Boolean!
-       gpa: Float
-       title: String!
-       price: Float!
-       releaseYear: Int
-       rating: Float
-       inStock: Boolean!
+        me: User!
+        post: Post!
+    }
+
+    type User {
+        id: ID!
+        name: String!
+        email: String!
+        age: Int
+    }
+
+    type Post {
+        id: ID!
+        title: String!
+        body: String!
+        published: Int!
     }
 `
 
 const resolvers = {
     Query: {
-       id() {
-            return "abc123"
-       },
-       name() {
-            return "Subomi"
-       },
-       age() {
-            return 25
-       },
-       employedN() {
-            return true
-       },
-       gpa() {
-            return null
-       },
-       title() {
-           return "Rainbow Ring"
-       },
-       price()  {
-           return 5000.00
-       },
-       releaseYear() {
-           return 2018
-       },
-       rating() {
-           return null
-       },
-       inStock() {
-           return true
-       }
+        me() {
+            return {
+                id: "123abc",
+                name: "Subomi",
+                email: "subomi@subomi.com",
+                age: 25
+            }
+        },
+
+        post() {
+            return{
+                id: "post1",
+                title: "My first post",
+                body: "This is the first post created using GraphQL",
+                published: 2019
+            }
+        }
     }
 }
 
