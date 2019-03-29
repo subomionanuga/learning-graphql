@@ -1,9 +1,38 @@
 import { ApolloServer } from 'apollo-server'
 
+const users = [{
+    id: '1',
+    name: 'Subomi',
+    email: 'subomi@subomi.com',
+    age: 25
+}, {
+    id: '2',
+    name: 'John',
+    email: 'john@john.com',
+    age: 78
+}]
+
+const posts = [{
+    id: '1',
+    title: 'First Post',
+    body: 'Nothing to report',
+    published: 2017
+}, {
+    id: '2',
+    title: 'Second Post',
+    body: 'Something to report',
+    published: 2018
+}, {
+    id: '3',
+    title: 'Third Post',
+    body: 'Just for the sake of it',
+    published: 2019
+}]
+
 const typeDefs = `
     type Query {
-        greeting(name: String): String!
-        add(a: Float!, b: Float!): Float!
+        users(query: String): [User!]!
+        posts(query: String): [Post!]!
         me: User!
         post: Post!
     }
@@ -25,16 +54,24 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        greeting() {
-            return "Hello"
+        users(parent, args, ctx, info) {
+            if (!args.query) {
+                return users
+            }
+            return users.filter((user) => {
+                return user.name.toLowerCase().includes(args.query.toLowerCase())
+            })
         },
-        add(parent, args) {
-            // console.log(parent);
-            // console.log(ctx);
-            // console.log(info);
-            // console.log(args);
-            return args.a + args.b
+
+        posts(parent, args, ctx, info) {
+            if (!args.query) {
+                return posts
+            }
+            return posts.filter((post) => {
+                return post.title.includes(args.query)
+            })
         },
+
         me() {
             return {
                 id: "123abc",
