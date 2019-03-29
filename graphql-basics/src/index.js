@@ -13,26 +13,44 @@ const users = [{
 }]
 
 const posts = [{
-    id: '1',
+    id: '5',
     title: 'First Post',
     body: 'Nothing to report',
-    published: 2017
+    published: 2017,
+    author: '1'
 }, {
-    id: '2',
+    id: '6',
     title: 'Second Post',
     body: 'Something to report',
-    published: 2018
+    published: 2018,
+    author: '1'
 }, {
-    id: '3',
+    id: '7',
     title: 'Third Post',
     body: 'Just for the sake of it',
-    published: 2019
+    published: 2019,
+    author: '2'
+}]
+
+const comments =[{
+    id: '11',
+    body: 'This is my first comment'
+}, {
+    id: '12',
+    body: 'This is my second comment'
+}, {
+    id: '13',
+    body: 'This is my third comment'
+}, {
+    id: '14',
+    body: 'This is my fourth comment'
 }]
 
 const typeDefs = `
     type Query {
         users(query: String): [User!]!
         posts(query: String): [Post!]!
+        comments: [Comment!]!
         me: User!
         post: Post!
     }
@@ -42,6 +60,7 @@ const typeDefs = `
         name: String!
         email: String!
         age: Int
+        posts: [Post!]!
     }
 
     type Post {
@@ -49,6 +68,12 @@ const typeDefs = `
         title: String!
         body: String!
         published: Int!
+        author: User!
+    }
+
+    type Comment {
+        id: ID!
+        body: String!
     }
 `
 
@@ -72,6 +97,10 @@ const resolvers = {
             })
         },
 
+        comments(parent, args, ctx, info) {
+            return comments
+        },
+
         me() {
             return {
                 id: "123abc",
@@ -88,6 +117,22 @@ const resolvers = {
                 body: "This is the first post created using GraphQL",
                 published: 2019
             }
+        }
+    },
+
+    Post: {
+        author(parent, args, ctx, info) {
+            return users.find((user) => {
+                return user.id === parent.author
+            })
+        }
+    },
+
+    User: {
+        posts(parent, args, ctx, info) {
+            return posts.filter((post) => {
+                return post.author === parent.id
+            })
         }
     }
 }
