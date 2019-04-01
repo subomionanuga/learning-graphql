@@ -63,6 +63,10 @@ const typeDefs = `
         post: Post!
     }
 
+    type Mutation {
+        createUser(name :String!, email: String!, age: Int): User!
+    }
+
     type User {
         id: ID!
         name: String!
@@ -129,6 +133,12 @@ const resolvers = {
                 body: "This is the first post created using GraphQL",
                 published: 2019
             }
+        }
+    },
+
+    Mutation: {
+        createUser(parent, args, ctx, info) {
+            console.log(args)
         }
     },
 
