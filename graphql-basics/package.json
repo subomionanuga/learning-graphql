@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js --exec babel-node",
+    "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,8 +13,10 @@
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "apollo-server": "^2.4.8",
+    "apollo-server-express": "^2.6.1",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "express": "^4.17.1",
     "graphql": "^14.2.0",
     "uuid": "^3.3.2"
   },
